@@ -4,6 +4,10 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import { connectDb } from './utils/MongoDB';
+import guestRouter from './routes/guest.route';
+import userRouter from './routes/user.route';
+import signupRouter from './routes/signup.route';
+import loginRouter from './routes/login.route';
 
 connectDb();
 const app = express();
@@ -22,6 +26,11 @@ app.use(session({
         maxAge: 86400000,
     },
 }));
+
+app.use('/api/guest', guestRouter)
+app.use('/api/create-account', signupRouter)
+app.use('/api/login', loginRouter)
+app.use('/api/user', userRouter)
 
 const Port = process.env.PORT;
 app.listen(Port, () => {
