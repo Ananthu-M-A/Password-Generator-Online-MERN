@@ -6,10 +6,16 @@ export const theme = {
             headerBg: {
                 DEFAULT: '#00628B',
             },
-            backgroundImage: {
-                'bg-img': "url('src/public/bg.jpg')",
+            buttonBg: {
+                DEFAULT: '#00F4F4',
+            },
+            buttonBg2: {
+                DEFAULT: '#0D2144',
             },
         },
+        backgroundImage: theme => ({
+            'img': "url('/bg.jpg')",
+        }),
     },
 };
 

@@ -1,14 +1,18 @@
-import Content from "./Components/Content";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header"
 import './index.css';
+import Passwords from './pages/Passwords';
+// import GuestHome from "./pages/GuestHome";
+// import GuestResult from "./pages/GuestResult";
+// import Login from './pages/Login';
+// import Signup from './pages/Signup';
 
 function App() {
   return (
     <>
-      <Header />
-      <Content />
-      <Footer />
+      {/* <GuestHome /> */}
+      {/* <GuestResult /> */}
+      {/* <Signup /> */}
+      {/* <Login /> */}
+      <Passwords />
     </>
   )
 }
