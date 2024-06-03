@@ -1,14 +1,29 @@
+import axios from "axios";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../contexts/AuthContext";
 
 function SignupForm() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPswd, setConfirmPswd] = useState("");
+  const [userData, setUserData] = useState({
+    fullName: "", email: "", password: "", confirmPswd: ""
+  });
+  const navigate = useNavigate();
+  const { showToast } = useAppContext();
 
-  const createAccount = (e: FormEvent) => {
+  const createAccount = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(fullName, email, password, confirmPswd);
+    try {
+      const backendURL = import.meta.env.VITE_API_BACKEND_URL;
+      const response = await axios.post(`${backendURL}/api/create-account`, userData)
+      if (response) {
+        showToast({ message: "User created & logged in!", type: "SUCCESS" })
+        console.log(response.data);
+        navigate('/');
+      }
+    } catch (error) {
+      showToast({ message: "Error in creating user!", type: "ERROR" })
+      console.log(error);
+    }
   }
 
   return (
@@ -24,8 +39,9 @@ function SignupForm() {
               <p className="flex justify-center">Enter Full Name</p>
               <input
                 id="fullname"
+                name="fullName"
                 type="text"
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>
@@ -35,8 +51,9 @@ function SignupForm() {
               <p className="flex justify-center">Enter Email Address</p>
               <input
                 id="email"
+                name="email"
                 type="text"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>
@@ -46,8 +63,9 @@ function SignupForm() {
               <p className="flex justify-center">Enter Password</p>
               <input
                 id="password"
-                type="text"
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                type="password"
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>
@@ -57,8 +75,9 @@ function SignupForm() {
               <p className="flex justify-center">Confirm Password</p>
               <input
                 id="confirm-pswd"
-                type="text"
-                onChange={(e) => setConfirmPswd(e.target.value)}
+                name="confirmPswd"
+                type="password"
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>

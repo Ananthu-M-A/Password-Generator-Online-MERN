@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ShowPassword from '../components/ShowPassword';
 
-function Result() {
+function Results() {
     return (
         <>
             <Header />
@@ -12,4 +12,4 @@ function Result() {
     )
 }
 
-export default Result;
+export default Results;

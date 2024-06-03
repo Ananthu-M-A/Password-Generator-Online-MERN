@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../contexts/AuthContext';
 
 function GeneratePassword() {
   const [passwordLength, setPasswordLength] = useState(12);
@@ -7,6 +9,8 @@ function GeneratePassword() {
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
+  const navigate = useNavigate();
+  const { showToast } = useAppContext();
 
   const handleLengthChange = (e: ChangeEvent<HTMLInputElement>) => setPasswordLength(parseInt(e.target.value));
   const handleUppercaseChange = (e: ChangeEvent<HTMLInputElement>) => setIncludeUppercase(e.target.checked);
@@ -25,8 +29,22 @@ function GeneratePassword() {
         includeNumbers,
         includeSymbols
       });
-      console.log('Password Generated:', response.data);
+      if (response.data) {
+        showToast({ message: "New password generated!", type: "SUCCESS" })
+        let newPassword = response.data.newPassword;
+        navigate('/generated-password', {
+          state: {
+            newPassword,
+            passwordLength, 
+            includeLowercase, 
+            includeUppercase, 
+            includeNumbers, 
+            includeSymbols
+          }
+        })
+      }
     } catch (error) {
+      showToast({ message: "Error Generating password!", type: "ERROR" })
       console.error('Error Generating password:', error);
     }
   }

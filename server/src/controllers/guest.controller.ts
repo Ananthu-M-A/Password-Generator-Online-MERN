@@ -10,7 +10,7 @@ export const loadGuestHome = async (req: Request, res: Response) => {
 
 export const generatePassword = async (req: Request, res: Response) => {
     try {
-        const { passwordLength, includeLowercase, includeUppercase, includeNumbers, includeSymbols } = req.body;        
+        const { passwordLength, includeLowercase, includeUppercase, includeNumbers, includeSymbols } = req.body;
         let str = '';
 
         if (includeLowercase) { str += "abcdefghijklmnopqrstuvwxyz"; }
@@ -29,7 +29,7 @@ export const generatePassword = async (req: Request, res: Response) => {
         for (let i = passwordLength - 1; i > 0; i--) {
             newPassword += array[i];
         }
-
+        res.status(200).json({ status: "Success", message: "New Password Generated!", newPassword });
     } catch (error) {
 
     }

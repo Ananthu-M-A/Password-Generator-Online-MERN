@@ -1,12 +1,27 @@
+import axios from "axios";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../contexts/AuthContext";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const { showToast } = useAppContext()
 
-  const loginUser = (e: FormEvent) => {
+  const loginUser = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(email, password);
+    try {
+      const backendURL = import.meta.env.VITE_API_BACKEND_URL;
+      const response = await axios.post(`${backendURL}/api/login`, userData)
+      if (response) {
+        showToast({ message: "User logged in!", type: "SUCCESS" })
+        console.log(response.data);
+        navigate('/');
+      }
+    } catch (error) {
+      showToast({ message: "Error in user login!", type: "ERROR" })
+      console.log(error);
+    }
   }
 
   return (
@@ -22,8 +37,9 @@ function LoginForm() {
               <p className="flex justify-center">Enter Email Address</p>
               <input
                 id="email"
+                name="email"
                 type="text"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>
@@ -33,8 +49,9 @@ function LoginForm() {
               <p className="flex justify-center">Enter Password</p>
               <input
                 id="password"
-                type="text"
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                type="password"
+                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
               />
             </label>
