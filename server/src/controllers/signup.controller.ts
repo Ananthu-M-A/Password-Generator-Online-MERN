@@ -2,10 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { validationResult } from "express-validator";
 
 // User Signup
 export const userSignup = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ status: "Error", message: errors.array() })
+        }
+
         const { fullName, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
