@@ -10,8 +10,13 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isLoggedIn ? navigate('/') : navigate('/user-login');
-  }, [isLoggedIn])
+    if (isLoggedIn) {
+      navigate('/');
+    } else if (window.location.pathname !== '/user-login') {
+      navigate('/user-login');
+    }
+  }, [isLoggedIn, navigate]);
+
 
   return (
     <>

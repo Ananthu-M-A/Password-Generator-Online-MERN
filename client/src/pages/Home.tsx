@@ -1,12 +1,12 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import GeneratePassword from '../components/GeneratePassword';
+import PasswordGenerator from '../components/PasswordGenerator';
 
 function Home() {
     return (
         <>
             <Header />
-            <GeneratePassword />
+            <PasswordGenerator />
             <Footer />
         </>
     )

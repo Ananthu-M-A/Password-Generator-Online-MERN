@@ -1,4 +1,5 @@
 export type PasswordType = {
+    id: any
     userId: string,
     password: string,
     criteria: CriteriaType,

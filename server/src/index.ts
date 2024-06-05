@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
@@ -9,9 +9,12 @@ import userRouter from './routes/user.route';
 import signupRouter from './routes/signup.route';
 import loginRouter from './routes/login.route';
 import verifyToken from './middlewares/auth.middlewares';
+import morgan from 'morgan';
 
 connectDb();
 const app = express();
+
+app.use(morgan("dev"));
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
@@ -34,6 +37,11 @@ app.use('/api/guest', guestRouter)
 app.use('/api/create-account', signupRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/user', verifyToken, userRouter)
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).json({ status: "Internal Server Error", message: err.message });
+});
 
 const Port = process.env.PORT;
 app.listen(Port, () => {

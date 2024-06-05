@@ -10,7 +10,7 @@ function Header() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-
+        console.log(isLoggedIn);
     }, [isLoggedIn]);
 
     const logoutUser = async () => {
@@ -20,15 +20,16 @@ function Header() {
                 withCredentials: true
             })
             if (response) {
+                window.location.reload()
+                navigate('/');
                 showToast({ message: "User logged out!", type: "SUCCESS" })
-                console.log(response.data);
-                window.location.reload();
             }
         } catch (error) {
             showToast({ message: "Error in user logout!", type: "ERROR" })
             console.log(error);
         }
     }
+    
 
     return (
         <div className="bg-headerBg py-6">

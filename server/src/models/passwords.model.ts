@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { PasswordType } from "../types/Types";
 
 const passwordsSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     password: { type: String, required: true, unique: true },
     criteria: {
         passwordLength: { type: Number, required: true },
@@ -13,6 +13,8 @@ const passwordsSchema = new mongoose.Schema({
     },
     createdAt: { type: Date, default: Date.now }
 });
+
+passwordsSchema.index({ userId: 1 });
 
 const Passwords = mongoose.model<PasswordType>('Passwords', passwordsSchema);
 export default Passwords;

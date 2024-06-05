@@ -1,12 +1,12 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ShowPassword from '../components/ShowPassword';
+import PasswordDisplay from '../components/PasswordDisplay';
 
 function Results() {
     return (
         <>
             <Header />
-            <ShowPassword />
+            <PasswordDisplay />
             <Footer />
         </>
     )

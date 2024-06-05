@@ -10,9 +10,13 @@ function Signup() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isLoggedIn ? navigate('/') : navigate('/create-account');
-  }, [isLoggedIn])
-  
+    if (isLoggedIn) {
+      navigate('/');
+    } else if (window.location.pathname !== '/create-account') {
+      navigate('/create-account');
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <>
       <Header />

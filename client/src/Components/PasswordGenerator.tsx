@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../contexts/AuthContext';
 
-function GeneratePassword() {
+function PasswordGenerator() {
   const [passwordLength, setPasswordLength] = useState(12);
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
@@ -138,4 +138,4 @@ function GeneratePassword() {
   );
 }
 
-export default GeneratePassword;
+export default PasswordGenerator;

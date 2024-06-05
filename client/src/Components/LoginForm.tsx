@@ -8,9 +8,16 @@ function LoginForm() {
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
+    const { email, password } = userData;
+
+    if (password.length < 12) {
+      showToast({ message: "Password must be at least 12 characters long!", type: "ERROR" });
+      return;
+    }
+
     try {
       const backendURL = import.meta.env.VITE_API_BACKEND_URL;
-      const response = await axios.post(`${backendURL}/api/login`, userData, {
+      const response = await axios.post(`${backendURL}/api/login`, { email, password }, {
         withCredentials: true
       })
       if (response) {
@@ -22,7 +29,8 @@ function LoginForm() {
       showToast({ message: "Error in user login!", type: "ERROR" })
       console.log(error);
     }
-  }
+  };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });

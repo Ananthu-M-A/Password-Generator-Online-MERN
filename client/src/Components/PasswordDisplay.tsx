@@ -4,7 +4,7 @@ import { FaRegCopy } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AuthContext";
 
-function ShowPassword() {
+function PasswordDisplay() {
   const location = useLocation()
   const navigate = useNavigate()
   const { showToast, isLoggedIn } = useAppContext()
@@ -138,4 +138,4 @@ function ShowPassword() {
   );
 }
 
-export default ShowPassword;
+export default PasswordDisplay;

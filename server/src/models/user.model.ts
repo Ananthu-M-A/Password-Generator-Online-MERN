@@ -7,5 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 });
 
+userSchema.index({ email: 1 });
+
 const User = mongoose.model<UserType>("User", userSchema)
 export default User;

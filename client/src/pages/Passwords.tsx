@@ -10,9 +10,12 @@ function Passwords() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        isLoggedIn ? navigate('/generated-passwords') : navigate('/');
-    }, [isLoggedIn])
-
+        if (isLoggedIn) {
+            navigate('/generated-passwords');
+        } else if (window.location.pathname !== '/') {
+            navigate('/');
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <>
