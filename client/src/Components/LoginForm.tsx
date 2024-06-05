@@ -1,22 +1,22 @@
 import axios from "axios";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AuthContext";
 
 function LoginForm() {
   const [userData, setUserData] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
   const { showToast } = useAppContext()
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const backendURL = import.meta.env.VITE_API_BACKEND_URL;
-      const response = await axios.post(`${backendURL}/api/login`, userData)
+      const response = await axios.post(`${backendURL}/api/login`, userData, {
+        withCredentials: true
+      })
       if (response) {
         showToast({ message: "User logged in!", type: "SUCCESS" })
         console.log(response.data);
-        navigate('/');
+        window.location.reload()
       }
     } catch (error) {
       showToast({ message: "Error in user login!", type: "ERROR" })
@@ -24,11 +24,15 @@ function LoginForm() {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div className="bg-img h-screen bg-cover bg-center flex">
-      <div className="w-1/3" />
-      <div className="w-1/3 m-5 flex flex-col justify-center">
-        <h1 className="text-white text-4xl font-semibold mb-2 flex justify-center">
+    <div className="bg-img h-screen bg-cover bg-center flex flex-col lg:flex-row">
+      <div className="hidden lg:block lg:w-1/3" />
+      <div className="w-full lg:w-1/3 m-5 flex flex-col justify-center">
+        <h1 className="text-white text-3xl sm:text-4xl font-semibold mb-4 flex justify-center">
           Login to Your Account
         </h1>
         <form className="m-5" onSubmit={loginUser}>
@@ -38,9 +42,11 @@ function LoginForm() {
               <input
                 id="email"
                 name="email"
-                type="text"
-                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                type="email"
+                onChange={handleChange}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
+                required
+                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               />
             </label>
           </div>
@@ -51,8 +57,12 @@ function LoginForm() {
                 id="password"
                 name="password"
                 type="password"
-                onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                onChange={handleChange}
                 className="mt-1 p-2 bg-white text-black rounded border w-full"
+                required
+                minLength={12}
+                maxLength={25}
+                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{6,}$"
               />
             </label>
           </div>
@@ -66,7 +76,7 @@ function LoginForm() {
           </div>
         </form>
       </div>
-      <div className="w-1/3" />
+      <div className="hidden lg:block lg:w-1/3" />
     </div>
   );
 }

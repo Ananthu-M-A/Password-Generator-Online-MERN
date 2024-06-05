@@ -24,12 +24,14 @@ export const AppContextProvider = (
     useEffect(() => {
         const validateToken = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/api/validate-token`, {
+                const response = await axios.get(`${BACKEND_URL}/api/user/validate-token`, {
                     withCredentials: true
                 });
-                console.log(response.data, isLoggedIn);
-                setIsLoggedIn(true);
-                setIsError(false);
+                if (response) {
+                    setIsLoggedIn(true);
+                    setIsError(false);
+                }
+
             } catch (error) {
                 setIsLoggedIn(false);
                 setIsError(true);
@@ -37,7 +39,7 @@ export const AppContextProvider = (
         };
 
         validateToken();
-    }, []);
+    }, [isLoggedIn]);
 
     return (
         <AppContext.Provider value={{

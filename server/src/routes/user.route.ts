@@ -1,12 +1,12 @@
 import express from 'express'
-import { generatePassword, loadPasswords, loadUserHome, logoutUser, savePassword } from '../controllers/user.controller';
+import { loadPasswords, logoutUser, savePassword, userAuthorization } from '../controllers/user.controller';
+import verifyToken from '../middlewares/auth.middlewares';
 
 const userRouter = express.Router();
 
-userRouter.get('/:userId', loadUserHome)
-userRouter.post('/:userId/generate-password', generatePassword)
-userRouter.post('/:userId/save-password', savePassword)
-userRouter.get('/:userId/saved-passwords', loadPasswords)
-userRouter.post('/:userId/logout', logoutUser)
+userRouter.get('/validate-token', verifyToken, userAuthorization)
+userRouter.post('/save-password', savePassword)
+userRouter.get('/saved-passwords', loadPasswords)
+userRouter.post('/logout', logoutUser)
 
 export default userRouter
