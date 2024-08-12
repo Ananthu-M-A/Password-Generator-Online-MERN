@@ -144,7 +144,7 @@ function PasswordsList() {
                         </button>
                     </div> :
                     <div className='grid justify-center items-center text-center mt-20'>
-                        <img width={200} src="/empty.png" alt="" />
+                        <img className='vibrate' width={200} src="/empty.png" alt="" />
                         <p className='text-xl font-semibold'>List is empty</p>
                     </div>}
             </div>

@@ -1,3 +1,19 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(-25px); }
+    50% { transform: translate(25px); }
+    75% { transform: translate(-25px); }
+    100% { transform: translate(25px); }
+  }
+  
+  .vibrate {
+    animation-name: vibrate;
+    animation-duration: 0.5s;
+    animation-delay: 1s;
+    animation-timing-function: linear;
+  }
+  
