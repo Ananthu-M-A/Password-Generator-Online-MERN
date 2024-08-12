@@ -86,11 +86,11 @@ function PasswordsList() {
 
     const confirmDeletePassword = async () => {
         try {
-            if (passwordIndex !== -1) {              
+            if (passwordIndex !== -1) {
                 const { data } = await axios.put(`${backendURL}/api/user/saved-passwords`, {
                     password: passwords[passwordIndex].password
                 }, { withCredentials: true });
-                if(data.status === "Success"){
+                if (data.status === "Success") {
                     setShowModal(false);
                     window.location.reload();
                     showToast({ message: "Password deleted successfully!", type: "SUCCESS" });
@@ -125,23 +125,28 @@ function PasswordsList() {
                         </tbody>
                     </table>
                 </div>
-                <div className='flex justify-center mt-4'>
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className="px-2 py-1 mx-1 bg-gray-300 rounded disabled:opacity-50"
-                    >
-                        Prev
-                    </button>
-                    <p className='px-2 py-1 mx-1'>{currentPage} of {totalPages}</p>
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className="px-2 py-1 mx-1 bg-gray-300 rounded disabled:opacity-50"
-                    >
-                        Next
-                    </button>
-                </div>
+                {(totalPages > 0) ?
+                    <div className='flex justify-center mt-4'>
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="px-2 py-1 mx-1 bg-gray-300 rounded disabled:opacity-50"
+                        >
+                            Prev
+                        </button>
+                        <p className='px-2 py-1 mx-1'>{currentPage} of {totalPages}</p>
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className="px-2 py-1 mx-1 bg-gray-300 rounded disabled:opacity-50"
+                        >
+                            Next
+                        </button>
+                    </div> :
+                    <div className='grid justify-center items-center text-center mt-20'>
+                        <img width={200} src="/empty.png" alt="" />
+                        <p className='text-xl font-semibold'>List is empty</p>
+                    </div>}
             </div>
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-buttonBg bg-opacity-50">
